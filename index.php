@@ -1,9 +1,14 @@
 <?php
 
-        $pdo = require_once './database.php';
-        $statement = $pdo->prepare('SELECT * FROM article');
-        $statement->execute();
-        $articles = $statement->fetchAll();
+        // $pdo = require_once './database.php';
+        // $statement = $pdo->prepare('SELECT * FROM article');
+        // $statement->execute();
+
+        /**
+         * @var ArticleDAO
+         */
+        $articleDAO = require_once './database/models/ArticleDAO.php';
+        $articles = $articleDAO->getAll();
 // $filename = __DIR__ . "/data/articles.json";
 // $articles = [];
 $categories = [];

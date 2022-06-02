@@ -1,17 +1,20 @@
 <?php
 
         /**
-         * @var PDO
+         * @var ArticleDAO
          */
 
-        $pdo = require_once './database.php';
-        $statementCreateOne = $pdo->prepare('
-            INSERT INTO article (title, category, content, image) VALUES (:title, :category, :content, :image)
-        ');
-        $statementUpdateOne = $pdo->prepare('
-            UPDATE article SET title=:title, category=:category, content=:content, image=:image WHERE id=:id
-        ');
-        $statementReadOne = $pdo->prepare('SELECT * FROM article WHERE id=:id');
+        // $pdo = require_once './database.php';
+        // $statementCreateOne = $pdo->prepare('
+        //     INSERT INTO article (title, category, content, image) VALUES (:title, :category, :content, :image)
+        // ');
+        // $statementUpdateOne = $pdo->prepare('
+        //     UPDATE article SET title=:title, category=:category, content=:content, image=:image WHERE id=:id
+        // ');
+        // $statementReadOne = $pdo->prepare('SELECT * FROM article WHERE id=:id');
+
+        $articleDAO = require_once './database/models/ArticleDAO.php';
+
 
 const ERROR_REQUIRED = "Veuillez renseigner ce champ";
 const ERROR_TITLE_TOO_SHORT = "Le titre est trop court";
@@ -41,9 +44,11 @@ if ($id) {
     // $articleIdx = array_search($id, array_column($articles, 'id'));
     // $article = $articles[$articleIdx];
 
-    $statementReadOne->bindValue(':id', $id);
-    $statementReadOne->execute();
-    $article = $statementReadOne->fetch();
+    // $statementReadOne->bindValue(':id', $id);
+    // $statementReadOne->execute();
+    // $article = $statementReadOne->fetch();
+
+    $article = $articleDAO->getOne($id);
 
     $title = $article['title'];
     $image = $article['image'];
@@ -99,12 +104,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // $articles['category'] = $category;
             // $articles['content'] = $content;
 
-            $statementUpdateOne->bindValue(':title', $title);
-            $statementUpdateOne->bindValue(':category', $category);
-            $statementUpdateOne->bindValue(':image', $image);
-            $statementUpdateOne->bindValue(':content', $content);
-            $statementUpdateOne->bindValue(':id', $id);
-            $statementUpdateOne->execute();
+            // $statementUpdateOne->bindValue(':title', $title);
+            // $statementUpdateOne->bindValue(':category', $category);
+            // $statementUpdateOne->bindValue(':image', $image);
+            // $statementUpdateOne->bindValue(':content', $content);
+            // $statementUpdateOne->bindValue(':id', $id);
+            // $statementUpdateOne->execute();
+
+            $articleDAO->updateOne([
+                'title' => $title,
+                'category' => $category,
+                'content' => $content,
+                'image' => $image,
+                'id' => $id
+            ]);
 
         } else {
             //On creer un nouvelle article
@@ -115,11 +128,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             //     'content' => $content,
             //     'id' => time()
             // ]];
-            $statementCreateOne->bindValue(':title', $title);
-            $statementCreateOne->bindValue(':category', $category);
-            $statementCreateOne->bindValue(':image', $image);
-            $statementCreateOne->bindValue(':content', $content);
-            $statementCreateOne->execute();
+
+            // $statementCreateOne->bindValue(':title', $title);
+            // $statementCreateOne->bindValue(':category', $category);
+            // $statementCreateOne->bindValue(':image', $image);
+            // $statementCreateOne->bindValue(':content', $content);
+            // $statementCreateOne->execute();
+
+            $articleDAO->createOne([
+                'title' => $title,
+                'category' => $category,
+                'content' => $content,
+                'image' => $image
+            ]);
         }
 
         // file_put_contents($filename, json_encode($articles));
