@@ -118,7 +118,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'image' => $image,
                 'id' => $id
             ]);
-
         } else {
             //On creer un nouvelle article
             // $articles = [...$articles, [
