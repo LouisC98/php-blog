@@ -1,4 +1,7 @@
 <?php
+        require __DIR__ . '/database/database.php';
+        require __DIR__ . '/database/security.php';
+        $currentUser = isLoggedIn();
 
         // $pdo = require_once './database.php';
         // $statement = $pdo->prepare('SELECT * FROM article');
