@@ -13,16 +13,16 @@ class ArticleDAO
     function __construct(private PDO $pdo) // $this->pdo = $pdo;
     {
         $this->statementCreateOne = $this->pdo->prepare('
-            INSERT INTO article (title, category, content, image) VALUES (:title, :category, :content, :image)
+            INSERT INTO article (title, category, content, image, author) VALUES (:title, :category, :content, :image, :author)
         ');
         $this->statementUpdateOne = $this->pdo->prepare('
-            UPDATE article SET title=:title, category=:category, content=:content, image=:image WHERE id=:id
+            UPDATE article SET title=:title, category=:category, content=:content, image=:image, author=:author WHERE id=:id
         ');
         $this->statementReadOne = $this->pdo->prepare('
-            SELECT * FROM article WHERE id=:id
+            SELECT article.*, user.firstname, user.lastname FROM article LEFT JOIN user ON article.author = user.id WHERE article.id=:id
         ');
         $this->statementReadAll = $this->pdo->prepare('
-            SELECT * FROM article
+            SELECT article.*, user.firstname, user.lastname FROM article LEFT JOIN user ON article.author = user.id
         ');
         $this->statementDeleteOne = $this->pdo->prepare('
             DELETE FROM article WHERE id=:id
@@ -36,6 +36,7 @@ class ArticleDAO
         $this->statementCreateOne->bindValue(':category', $article['category']);
         $this->statementCreateOne->bindValue(':content', $article['content']);
         $this->statementCreateOne->bindValue(':image', $article['image']);
+        $this->statementCreateOne->bindValue(':author', $article['author']);
         $this->statementCreateOne->execute();
         return $this->getOne($this->pdo->lastInsertId());
     }
@@ -66,6 +67,7 @@ class ArticleDAO
         $this->statementUpdateOne->bindValue(':category', $article['category']);
         $this->statementUpdateOne->bindValue(':content', $article['content']);
         $this->statementUpdateOne->bindValue(':image', $article['image']);
+        $this->statementUpdateOne->bindValue(':author', $article['author']);
         $this->statementUpdateOne->bindValue(':id', $article['id']);
         $this->statementUpdateOne->execute();
         return $this->getOne($article['id']);;

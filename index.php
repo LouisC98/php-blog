@@ -1,17 +1,17 @@
 <?php
-        require __DIR__ . '/database/database.php';
-        require __DIR__ . '/database/security.php';
-        $currentUser = isLoggedIn();
+require __DIR__ . '/database/database.php';
+require __DIR__ . '/database/security.php';
+$currentUser = isLoggedIn();
 
-        // $pdo = require_once './database.php';
-        // $statement = $pdo->prepare('SELECT * FROM article');
-        // $statement->execute();
+// $pdo = require_once './database.php';
+// $statement = $pdo->prepare('SELECT * FROM article');
+// $statement->execute();
 
-        /**
-         * @var ArticleDAO
-         */
-        $articleDAO = require_once './database/models/ArticleDAO.php';
-        $articles = $articleDAO->getAll();
+/**
+ * @var ArticleDAO
+ */
+$articleDAO = require_once './database/models/ArticleDAO.php';
+$articles = $articleDAO->getAll();
 // $filename = __DIR__ . "/data/articles.json";
 // $articles = [];
 $categories = [];
@@ -92,6 +92,11 @@ if (count($articles)) {
                                         <div class="overflow">
                                             <div class="img-container" style="background-image: url(<?= $article['image'] ?>);"></div>
                                         </div>
+                                        <?php if ($article['author']) : ?>
+                                            <div class="article-author">
+                                                <p><?= $article['firstname'] . ' ' . $article['lastname'] ?></p>
+                                            </div>
+                                        <?php endif; ?>
                                         <h3><?= $article['title'] ?></h3>
                                     </a>
                                 <?php endforeach; ?>
@@ -105,6 +110,11 @@ if (count($articles)) {
                                     <div class="overflow">
                                         <div class="img-container" style="background-image: url(<?= $article['image'] ?>);"></div>
                                     </div>
+                                    <?php if ($article['author']) : ?>
+                                        <div class="article-author">
+                                            <p><?= $article['firstname'] . ' ' . $article['lastname'] ?></p>
+                                        </div>
+                                    <?php endif; ?>
                                     <h3><?= $article['title'] ?></h3>
                                 </a>
                             <?php endforeach; ?>

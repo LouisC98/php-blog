@@ -54,6 +54,18 @@
     transform: scale(1.2);
 }
 
+.article-author {
+    display: flex;
+    flex-flow: row;
+    justify-content: flex-end;
+    padding: 5px;
+}
+
+.article-author p {
+    font-size: 1.3rem;
+    font-weight: 700;
+    font-style: italic;
+}
 .overflow {
     overflow: hidden;
 }

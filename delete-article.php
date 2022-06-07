@@ -1,5 +1,14 @@
 <?php
 
+require_once __DIR__ . '/database/database.php';
+require_once __DIR__ . '/database/security.php';
+
+$currentUser = isLoggedIn();
+
+if (!$currentUser) {
+    header('Location: /');
+}
+
 // $filename = __DIR__ . "/data/articles.json";
 // $articles = [];
 
@@ -18,8 +27,14 @@ $id = $_GET['id'] ?? '';
 if ($id) {
     // $statement->bindValue(':id', $id);
     // $statement->execute();
+    $article = $articleDAO->getOne($id);
 
-    $articleDAO->deleteOne($id);
+    if ($currentUser['id'] === $article['author']) {
+        $articleDAO->deleteOne($id);
+    } else {
+        header('Location :/');
+    }
+
 }
 // else {
 //     if (file_exists($filename)) {

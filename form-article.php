@@ -1,4 +1,13 @@
 <?php
+        require_once __DIR__ . '/database/database.php';
+        require_once __DIR__ . '/database/security.php';
+        $currentUser = isLoggedIn();
+
+        if (!$currentUser) {
+            header('Location: /');
+        }
+
+
 
         /**
          * @var ArticleDAO
@@ -116,7 +125,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'category' => $category,
                 'content' => $content,
                 'image' => $image,
-                'id' => $id
+                'id' => $id,
+                'author' => $currentUser['id']
             ]);
         } else {
             //On creer un nouvelle article
@@ -138,7 +148,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'title' => $title,
                 'category' => $category,
                 'content' => $content,
-                'image' => $image
+                'image' => $image,
+                'author' => $currentUser['id']
             ]);
         }
 
