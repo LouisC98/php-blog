@@ -41,7 +41,7 @@
 .article {
     flex: 30%;
     margin: 1rem;
-    min-height: 41rem;
+    min-height: 43rem;
     cursor: pointer;
 }
 

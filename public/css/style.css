@@ -119,6 +119,7 @@ header {
         margin: 0;
         display: flex;
             flex-flow: row;
+            align-items: center;
     }
     
     .header-menu li {
@@ -136,6 +137,18 @@ header {
         background-color: var(--primary-dark);
 }
 
+li.header-profile {
+    font-weight: 700;
+    background-color: var(--dark);
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
 .logo {
     font-weight: 600;
     font-size: 2rem;

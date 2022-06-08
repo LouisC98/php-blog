@@ -97,7 +97,7 @@ if (count($articles)) {
                                                 <p><?= $article['firstname'] . ' ' . $article['lastname'] ?></p>
                                             </div>
                                         <?php endif; ?>
-                                        <h3><?= $article['title'] ?></h3>
+                                        <h3><?= substr($article['title'], 0, 100) . ' ...' ?></h3>
                                     </a>
                                 <?php endforeach; ?>
                             </div>
