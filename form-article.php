@@ -1,7 +1,7 @@
 <?php
         require_once __DIR__ . '/database/database.php';
-        require_once __DIR__ . '/database/security.php';
-        $currentUser = isLoggedIn();
+        $authDAO = require_once __DIR__ . '/database/security.php';
+        $currentUser = $authDAO->isLoggedIn();
 
         if (!$currentUser) {
             header('Location: /');

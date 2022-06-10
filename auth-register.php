@@ -1,6 +1,10 @@
 <?php
 
 $pdo = require_once './database/database.php';
+        /**
+         * @var AuthDAO
+         */
+        $authDAO = require_once './database/security.php';
 
 const ERROR_REQUIRED = 'Veuillez renseigner ce champ';
 const ERROR_TOO_SHORT = 'Ce champ est trop court';
@@ -67,20 +71,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty(array_filter($errors, fn ($e) => $e !== ''))) {
 
-        $statement = $pdo->prepare('
-            INSERT INTO user VALUES (DEFAULT, :firstname, :lastname, :email, :password)
-        ');
+        // $statement = $pdo->prepare('
+        //     INSERT INTO user VALUES (DEFAULT, :firstname, :lastname, :email, :password)
+        // ');
 
 
-        //  (id, firstname, lastname, email, password) 
+        // //  (id, firstname, lastname, email, password) 
 
-        $hashPassword = password_hash($password, PASSWORD_ARGON2I);
+        // $hashPassword = password_hash($password, PASSWORD_ARGON2I);
 
-        $statement->bindValue(':firstname', $firstname);
-        $statement->bindValue(':lastname', $lastname);
-        $statement->bindValue(':email', $email);
-        $statement->bindValue(':password', $hashPassword);
-        $statement->execute();
+        // $statement->bindValue(':firstname', $firstname);
+        // $statement->bindValue(':lastname', $lastname);
+        // $statement->bindValue(':email', $email);
+        // $statement->bindValue(':password', $hashPassword);
+        // $statement->execute();
+
+        $authDAO->register([
+            'firstname' => $firstname,
+            'lastname' => $lastname,
+            'email' => $email,
+            'password' => $password
+        ]);
 
         header('Location: /');
     }
